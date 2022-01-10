@@ -46,4 +46,9 @@ extension UILabel {
             attributedText = attributedString
         }
     }
+    
+    func autoscaleFont(fontFactor: CGFloat = Config.LABEL_TEXT_SCALE_FACTOR) {
+        adjustsFontSizeToFitWidth = true
+        minimumScaleFactor = fontFactor
+    }
 }

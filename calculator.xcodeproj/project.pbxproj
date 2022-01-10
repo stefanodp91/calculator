@@ -17,6 +17,9 @@
 		3FD5A5FD2785096700B7EF34 /* MathUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A5FC2785096700B7EF34 /* MathUtils.swift */; };
 		3FD5A6022785CE7B00B7EF34 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */; };
 		3FD5A60527860FF000B7EF34 /* CustomUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A60427860FF000B7EF34 /* CustomUILabel.swift */; };
+		3FD5A61F2788C5B600B7EF34 /* TryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A61E2788C5B600B7EF34 /* TryCatch.m */; };
+		3FD5A621278C7CC900B7EF34 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A620278C7CC900B7EF34 /* Config.swift */; };
+		3FD5A623278CA7AA00B7EF34 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A622278CA7AA00B7EF34 /* StringUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,11 +30,16 @@
 		3FD5A5DD278446AF00B7EF34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FD5A5DF278446B100B7EF34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FD5A5E2278446B100B7EF34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3FD5A5E4278446B100B7EF34 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3FD5A5F22784831600B7EF34 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		3FD5A5FC2785096700B7EF34 /* MathUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtils.swift; sourceTree = "<group>"; };
 		3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		3FD5A60427860FF000B7EF34 /* CustomUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUILabel.swift; sourceTree = "<group>"; };
+		3FD5A61A2788C4F400B7EF34 /* calculator-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "calculator-Bridging-Header.h"; path = "../../../../.Trash/calculator-Bridging-Header.h"; sourceTree = "<group>"; };
+		3FD5A61C2788C5B500B7EF34 /* calculator-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "calculator-Bridging-Header.h"; sourceTree = "<group>"; };
+		3FD5A61D2788C5B600B7EF34 /* TryCatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TryCatch.h; sourceTree = "<group>"; };
+		3FD5A61E2788C5B600B7EF34 /* TryCatch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TryCatch.m; sourceTree = "<group>"; };
+		3FD5A620278C7CC900B7EF34 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		3FD5A622278CA7AA00B7EF34 /* StringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +81,7 @@
 				3FD5A5DC278446AF00B7EF34 /* Main.storyboard */,
 				3FD5A5DF278446B100B7EF34 /* Assets.xcassets */,
 				3FD5A5E1278446B100B7EF34 /* LaunchScreen.storyboard */,
-				3FD5A5E4278446B100B7EF34 /* Info.plist */,
+				3FD5A61A2788C4F400B7EF34 /* calculator-Bridging-Header.h */,
 			);
 			path = calculator;
 			sourceTree = "<group>";
@@ -82,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				3FD5A5F22784831600B7EF34 /* Data.swift */,
+				3FD5A620278C7CC900B7EF34 /* Config.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -91,6 +100,10 @@
 			children = (
 				3FD5A5FC2785096700B7EF34 /* MathUtils.swift */,
 				3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */,
+				3FD5A61D2788C5B600B7EF34 /* TryCatch.h */,
+				3FD5A61E2788C5B600B7EF34 /* TryCatch.m */,
+				3FD5A61C2788C5B500B7EF34 /* calculator-Bridging-Header.h */,
+				3FD5A622278CA7AA00B7EF34 /* StringUtils.swift */,
 			);
 			path = utils;
 			sourceTree = "<group>";
@@ -135,6 +148,7 @@
 				TargetAttributes = {
 					3FD5A5D2278446AF00B7EF34 = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1320;
 					};
 				};
 			};
@@ -176,11 +190,14 @@
 			files = (
 				3FD5A5FD2785096700B7EF34 /* MathUtils.swift in Sources */,
 				3FD5A60527860FF000B7EF34 /* CustomUILabel.swift in Sources */,
+				3FD5A621278C7CC900B7EF34 /* Config.swift in Sources */,
 				3FD5A5DB278446AF00B7EF34 /* ViewController.swift in Sources */,
 				3FD5A5F32784831600B7EF34 /* Data.swift in Sources */,
 				3FD5A6022785CE7B00B7EF34 /* UIUtils.swift in Sources */,
+				3FD5A623278CA7AA00B7EF34 /* StringUtils.swift in Sources */,
 				3FD5A5D7278446AF00B7EF34 /* AppDelegate.swift in Sources */,
 				3FD5A5D9278446AF00B7EF34 /* SceneDelegate.swift in Sources */,
+				3FD5A61F2788C5B600B7EF34 /* TryCatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +344,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 63MFV994FY;
@@ -345,6 +363,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = it.stefanodp91.ios.calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "calculator/utils/calculator-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -355,6 +375,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 63MFV994FY;
@@ -373,6 +394,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = it.stefanodp91.ios.calculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "calculator/utils/calculator-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -11,25 +11,12 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var rootStackView: UIStackView!
     
-    private var currentOperation: String = ""
-    private var total: String = ""
-    private var previousNumber: Double = 0
-    private var isOperationInProgess = false
-    private var operation: String = ""
+    private var inProgressCalculation: String = ""
     
-    private var totalUILabel: CustomUILabel = CustomUILabel()
+    private var currentCalculationLabel: CustomUILabel = CustomUILabel()
+    private var resultLabel: CustomUILabel = CustomUILabel()
     private var labelStackView: UIStackView = UIStackView()
     private var buttonsStackView : UIStackView?
-    
-    private let LABEL_MULTIPLIER : CGFloat = 0.3
-    private let BUTTONS_CONTAINER_MULTIPLIER : CGFloat = 0.7
-    private let BUTTONS_CONTAINER_PADDING : CGFloat  = 8
-    private let LABEL_CONTAINER_PADDING : CGFloat  = 8
-    private let BUTTON_SPACING : CGFloat  = 12
-    private let LABEL_FONT_SIZE : CGFloat  = 100
-    private let BUTTON_FONT_SIZE : CGFloat  = 50
-    private let LABEL_RADIUS : CGFloat  = 16
-    private let BUTTON_RADIUS : CGFloat  = 16
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +24,15 @@ class ViewController: UIViewController {
         // main container stackview
         setupRoot()
         
-        // label
-        setupLabel()
+        // current calculation and result label
+        setupLabels()
         
         // Buttons
         setupButtons()
         
         // Add views layout
-        labelStackView.addArrangedSubview(totalUILabel)
+        labelStackView.addArrangedSubview(resultLabel)
+        labelStackView.addArrangedSubview(currentCalculationLabel)
         rootStackView.addArrangedSubview(labelStackView)
         rootStackView.addArrangedSubview(buttonsStackView!)
         
@@ -55,34 +43,44 @@ class ViewController: UIViewController {
         rootStackView.axis = .vertical
         rootStackView.alignment = .center
         rootStackView.distribution = .fill
-        rootStackView.addBackground(color: .systemGray)
+        rootStackView.addBackground(color: .systemGray6)
     }
     
-    private func setupLabel() {
-        totalUILabel.textColor = .black
-        totalUILabel.backgroundColor = .white
-        totalUILabel.textAlignment = .right
-        totalUILabel.font = .systemFont(ofSize: LABEL_FONT_SIZE)
-        totalUILabel.setMargins(top: 0, left: 0, bottom: 0, right: 25)
+    private func setupLabels() {
         
+        let labelBackground : UIColor = .systemBlue
         
-        // radius
-        totalUILabel.layer.cornerRadius = LABEL_RADIUS
-        totalUILabel.layer.masksToBounds = true
+        resultLabel.textColor = .white
+        resultLabel.backgroundColor = .systemGray
+        resultLabel.textAlignment = .right
+        resultLabel.font = .systemFont(ofSize: Config.RESULT_FONT_SIZE)
+        resultLabel.setMargins(
+            top: Config.LABEL_INTERNAL_PADDING,
+            left: Config.LABEL_INTERNAL_PADDING,
+            bottom: 0,
+            right: Config.LABEL_INTERNAL_PADDING
+        )
+        resultLabel.backgroundColor = labelBackground
+        resultLabel.autoscaleFont()
         
-        // add shadow
-        totalUILabel.layer.shadowColor = UIColor.black.cgColor
-        totalUILabel.layer.shadowOffset = CGSize(width: 5, height: 5)
-        totalUILabel.layer.shadowRadius = 4.0
-        totalUILabel.layer.shadowOpacity = 0.4
-        totalUILabel.layer.shouldRasterize = true
-        totalUILabel.layer.rasterizationScale = UIScreen.main.scale
+        currentCalculationLabel.textColor = .white
+        currentCalculationLabel.backgroundColor = .systemGray
+        currentCalculationLabel.textAlignment = .right
+        currentCalculationLabel.font = .systemFont(ofSize: Config.CURRENT_CALCULATION_FONT_SIZE)
+        currentCalculationLabel.setMargins(
+            top: 0,
+            left: Config.LABEL_INTERNAL_PADDING,
+            bottom: Config.LABEL_INTERNAL_PADDING,
+            right: Config.LABEL_INTERNAL_PADDING
+        )
+        currentCalculationLabel.backgroundColor = labelBackground
+        // font size
+        currentCalculationLabel.autoscaleFont()
         
         // add internal margins
-        totalUILabel.setMargins(margin: 20)
+        currentCalculationLabel.setMargins(margin: Config.LABEL_INTERNAL_PADDING)
         
-        // add external margin to label stackview
-        labelStackView.layoutMargins = .init(top: LABEL_CONTAINER_PADDING, left: LABEL_CONTAINER_PADDING, bottom: LABEL_CONTAINER_PADDING, right: LABEL_CONTAINER_PADDING)
+        labelStackView.addBackground(color: .systemBlue)
         labelStackView.isLayoutMarginsRelativeArrangement = true
     }
     
@@ -91,7 +89,12 @@ class ViewController: UIViewController {
         buttonsStackView = createButtonsStackView()
         
         // add external margin to buttons stackview
-        buttonsStackView!.layoutMargins = .init(top: BUTTONS_CONTAINER_PADDING, left: BUTTONS_CONTAINER_PADDING, bottom: BUTTONS_CONTAINER_PADDING, right: BUTTONS_CONTAINER_PADDING)
+        buttonsStackView!.layoutMargins = .init(
+            top: Config.BUTTONS_CONTAINER_PADDING,
+            left: Config.BUTTONS_CONTAINER_PADDING,
+            bottom: Config.BUTTONS_CONTAINER_PADDING,
+            right: Config.BUTTONS_CONTAINER_PADDING
+        )
         buttonsStackView!.isLayoutMarginsRelativeArrangement = true
         
     }
@@ -100,23 +103,41 @@ class ViewController: UIViewController {
         // ignore default constraints
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         buttonsStackView!.translatesAutoresizingMaskIntoConstraints = false
+        currentCalculationLabel.translatesAutoresizingMaskIntoConstraints = false
+        resultLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        labelStackView.axis = .vertical
+        
+        // current calculation label
+        resultLabel.topAnchor.constraint(equalTo: labelStackView.topAnchor, constant: 0).isActive = true
+        resultLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
+        resultLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
+        resultLabel.bottomAnchor.constraint(equalTo: currentCalculationLabel.topAnchor, constant: 0).isActive = true
+        resultLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: Config.LABEL_RESULT_RATIO_IN_CONTAINER).isActive = true
+        
+        // result label
+        currentCalculationLabel.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 0).isActive = true
+        currentCalculationLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
+        currentCalculationLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
+        currentCalculationLabel.bottomAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
+        currentCalculationLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: Config.LABEL_CURRENT_CALCULATION_RATIO_IN_CONTAINER).isActive = true
         
         // label stackview
         labelStackView.topAnchor.constraint(equalTo: rootStackView.topAnchor, constant: 0).isActive = true
         labelStackView.leadingAnchor.constraint(equalTo: rootStackView.leadingAnchor, constant: 0).isActive = true
         labelStackView.trailingAnchor.constraint(equalTo: rootStackView.trailingAnchor, constant: 0).isActive = true
         labelStackView.bottomAnchor.constraint(equalTo: buttonsStackView!.topAnchor, constant: 0).isActive = true
-        labelStackView.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: LABEL_MULTIPLIER).isActive = true
+        labelStackView.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: Config.LABEL_CONTAINER_SCREEN_RATIO).isActive = true
         
         // button stackview
         buttonsStackView!.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
         buttonsStackView!.leadingAnchor.constraint(equalTo: rootStackView.leadingAnchor, constant: 0).isActive = true
         buttonsStackView!.trailingAnchor.constraint(equalTo: rootStackView.trailingAnchor, constant: 0).isActive = true
         buttonsStackView!.bottomAnchor.constraint(equalTo: rootStackView.bottomAnchor, constant: 0).isActive = true
-        buttonsStackView!.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: BUTTONS_CONTAINER_MULTIPLIER).isActive = true
+        buttonsStackView!.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: Config.BUTTONS_CONTAINER_SCREEN_RATIO).isActive = true
     }
     
-    private func createButtonsStackView() -> UIStackView{
+    private func createButtonsStackView() -> UIStackView {
         
         var groups = [UIStackView]()
         
@@ -125,19 +146,17 @@ class ViewController: UIViewController {
             let rowStackView = UIStackView(arrangedSubviews: group)
             rowStackView.axis = .horizontal
             rowStackView.distribution = .fillEqually
-            rowStackView.spacing = BUTTON_SPACING
+            rowStackView.spacing = Config.BUTTON_SPACING
             groups.append(rowStackView)
         }
         
         let buttonsStackView = UIStackView(arrangedSubviews: groups)
         buttonsStackView.axis = .vertical
         buttonsStackView.distribution = .fillEqually
-        // buttonsStackView.addBackground(color: .systemGray2)
-        buttonsStackView.spacing = BUTTON_SPACING
+        buttonsStackView.spacing = Config.BUTTON_SPACING
         
         return buttonsStackView
     }
-    
     
     func createButtons(subGroup: [Data]) -> [UIButton]{
         return subGroup.map { element in
@@ -145,22 +164,15 @@ class ViewController: UIViewController {
             button.tag = element.id.hashValue
             button.setTitle(element.label, for: .normal)
             button.setTitleColor( .white , for: .normal)
-            button.titleLabel?.font =  .systemFont(ofSize: BUTTON_FONT_SIZE)
-            button.layer.cornerRadius = BUTTON_RADIUS
-            
-            // add shadow
-            button.layer.shadowColor = UIColor.black.cgColor
-            button.layer.shadowOffset = CGSize(width: 5, height: 5)
-            button.layer.shadowRadius = 4.0
-            button.layer.shadowOpacity = 0.4
-            button.layer.shouldRasterize = true
-            button.layer.rasterizationScale = UIScreen.main.scale
+            button.titleLabel?.font =  .systemFont(ofSize: Config.BUTTON_FONT_SIZE)
+            button.layer.cornerRadius = Config.BUTTON_RADIUS
+            button.titleLabel?.adjustsFontSizeToFitWidth = true;
             
             var backgroundColor : UIColor
             switch(element.type){
-            case .operation: backgroundColor = .systemGray3
+            case .operation: backgroundColor = .systemGray4
             case .result:backgroundColor = .systemBlue
-            default :backgroundColor = .systemGray2
+            default :backgroundColor = .systemGray6
             }
             
             button.backgroundColor = backgroundColor
@@ -190,73 +202,49 @@ class ViewController: UIViewController {
         }
     }
     
+    var temp: String = ""
     private func handleClick(data: Data) {
         switch(data.id) {
-        case "0", "1",  "2", "3", "4",  "5", "6", "7", "8", "9":
             
-            if (isOperationInProgess) {
-                total = data.id
-                total = data.id
-                isOperationInProgess=false
-            } else {
-                total += data.id
+        case Symbol.delete.id:
+            if(!inProgressCalculation.isEmpty){
+                inProgressCalculation.removeLast()
             }
-        case Operation.multiplication.description:
-            if(!total.isEmpty){
-                operation = Operation.multiplication.description
-                previousNumber = stringToDouble(stringVal: total)
-                isOperationInProgess = true
-            }
-        case Operation.subtraction.description:
-            if(!total.isEmpty){
-                operation = Operation.subtraction.description
-                previousNumber = stringToDouble(stringVal: total)
-                isOperationInProgess = true
-            }
-        case Operation.sum.description:
-            if(!total.isEmpty){
-                operation = Operation.sum.description
-                previousNumber = stringToDouble(stringVal: total)
-                isOperationInProgess = true
-            }
-        case Operation.division.description:
-            if(!total.isEmpty){
-                operation = Operation.division.description
-                previousNumber = stringToDouble(stringVal: total)
-                isOperationInProgess = true
-            }
-        case Symbol.dot.description:
-            if(!total.isEmpty && !total.contains(data.label)) {
-                total += data.label
-            }
-        case Symbol.delete.description:
-            if(!total.isEmpty){
-                total.removeLast()
-                
-            }
-        case Symbol.result.description:
-            switch(operation) {
-            case Operation.multiplication.description:
-                total = String(multiply(x: previousNumber, y: stringToDouble(stringVal: total)))
-            case Operation.subtraction.description:
-                total = String(difference(x: previousNumber, y: stringToDouble(stringVal: total)))
-            case Operation.sum.description:
-                total = String(sum(x: previousNumber, y: stringToDouble(stringVal: total)))
-            case Operation.division.description:
-                total = String(divide(x: previousNumber, y: stringToDouble(stringVal: total)))
-            default: break
-            }
-            isOperationInProgess = false
-        default:break
-            
+        default:
+            inProgressCalculation += data.label
         }
         
-        totalUILabel.text  = total
+        temp = inProgressCalculation
+            .replacingOccurrences(of: Operation.multiplication.label, with: Operation.multiplication.id)
+            .replacingOccurrences(of: Operation.division.label, with: Operation.division.id)
+            .replacingOccurrences(of: MathSymbol.comma.label, with: MathSymbol.comma.mathValue)
         
+        currentCalculationLabel.text  = inProgressCalculation
         
+        updateResult()
+    }
+    
+    // evaluate formula
+    private func updateResult() {
         
-        print("previousNumber", previousNumber)
-        print("total", total)
-        
+        // update result
+        do {
+            try TryCatch.catchException {
+                
+                let normalizedExpression =  normalize(expression: self.temp)
+                
+                let expr = NSExpression(format: normalizedExpression)
+                
+                if let result = expr.expressionValue(with: nil, context: nil) as? Double {
+                    
+                    self.temp = doubleToString(doubleVal: result)
+                        .replacingOccurrences(of: MathSymbol.comma.mathValue, with:  MathSymbol.comma.label)
+                    
+                    self.resultLabel.text = self.temp
+                }
+            }
+        } catch {
+            // print("An error ocurred: \(error)")
+        }
     }
 }
