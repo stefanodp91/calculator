@@ -13,9 +13,9 @@ class ViewController: UIViewController {
     
     private var inProgressCalculation: String = ""
     
-    private var currentCalculationLabel: CustomUILabel = CustomUILabel()
-    private var resultLabel: CustomUILabel = CustomUILabel()
-    private var labelStackView: UIStackView = UIStackView()
+    private var currentCalculationLabel = UITextField()
+    private var resultLabel = CustomUILabel()
+    private var labelStackView = UIStackView()
     private var buttonsStackView : UIStackView?
     
     override func viewDidLoad() {
@@ -63,22 +63,30 @@ class ViewController: UIViewController {
         resultLabel.backgroundColor = labelBackground
         resultLabel.autoscaleFont()
         
-        currentCalculationLabel.textColor = .white
+        
+        //It will Hide Keyboard
+        currentCalculationLabel.inputView = UIView()
+        //It will Hide Keyboard tool bar
+        currentCalculationLabel.inputAccessoryView = UIView()
+        //It will Hide the cursor
+        currentCalculationLabel.tintColor = .white
+        
+//        currentCalculationLabel.textColor = .white
         currentCalculationLabel.backgroundColor = .systemGray
         currentCalculationLabel.textAlignment = .right
         currentCalculationLabel.font = .systemFont(ofSize: Config.CURRENT_CALCULATION_FONT_SIZE)
-        currentCalculationLabel.setMargins(
-            top: 0,
-            left: Config.LABEL_INTERNAL_PADDING,
-            bottom: Config.LABEL_INTERNAL_PADDING,
-            right: Config.LABEL_INTERNAL_PADDING
-        )
+//        currentCalculationLabel.setMargins(
+//            top: 0,
+//            left: Config.LABEL_INTERNAL_PADDING,
+//            bottom: Config.LABEL_INTERNAL_PADDING,
+//            right: Config.LABEL_INTERNAL_PADDING
+//        )
         currentCalculationLabel.backgroundColor = labelBackground
-        // font size
-        currentCalculationLabel.autoscaleFont()
-        
-        // add internal margins
-        currentCalculationLabel.setMargins(margin: Config.LABEL_INTERNAL_PADDING)
+//        // font size
+//        currentCalculationLabel.autoscaleFont()
+//
+//        // add internal margins
+//        currentCalculationLabel.setMargins(margin: Config.LABEL_INTERNAL_PADDING)
         
         labelStackView.addBackground(color: .systemBlue)
         labelStackView.isLayoutMarginsRelativeArrangement = true
@@ -208,7 +216,8 @@ class ViewController: UIViewController {
             
         case Symbol.delete.id:
             if(!inProgressCalculation.isEmpty){
-                inProgressCalculation.removeLast()
+                inProgressCalculation.remove(at: currentCalculationLabel.getCurrentIndex())
+                // TODO: update cursor index to last known location
             }
         default:
             inProgressCalculation += data.label

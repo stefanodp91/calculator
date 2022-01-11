@@ -11,6 +11,14 @@ extension StringProtocol {
     var integer: Int? { Int(self) }
 }
 
+extension StringProtocol where Self: RangeReplaceableCollection {
+    @discardableResult
+    mutating func remove(at offset: Int) -> Element? {
+        guard let index = index(startIndex, offsetBy: offset, limitedBy: endIndex) else { return nil }
+        return remove(at: index)
+    }
+}
+
 func matches(for regex: String, in text: String) -> [String] {
     
     do {
@@ -32,3 +40,4 @@ func stringToDouble(stringVal : String) ->  Double {
 func doubleToString(doubleVal: Double) -> String {
     return String(doubleVal)
 }
+
