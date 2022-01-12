@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MathParser
 
 class ViewController: UIViewController {
     
@@ -13,10 +14,13 @@ class ViewController: UIViewController {
     
     private var inProgressCalculation: String = ""
     
-    private var currentCalculationLabel = UITextField()
+    private var currentCalculationLabel = CustomUILabel()
     private var resultLabel = CustomUILabel()
     private var labelStackView = UIStackView()
     private var buttonsStackView : UIStackView?
+    
+    // DDMathParser
+    var parsedExpression: Expression?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +35,8 @@ class ViewController: UIViewController {
         setupButtons()
         
         // Add views layout
-        labelStackView.addArrangedSubview(resultLabel)
         labelStackView.addArrangedSubview(currentCalculationLabel)
+        labelStackView.addArrangedSubview(resultLabel)
         rootStackView.addArrangedSubview(labelStackView)
         rootStackView.addArrangedSubview(buttonsStackView!)
         
@@ -57,36 +61,36 @@ class ViewController: UIViewController {
         resultLabel.setMargins(
             top: Config.LABEL_INTERNAL_PADDING,
             left: Config.LABEL_INTERNAL_PADDING,
-            bottom: 0,
+            bottom: Config.LABEL_INTERNAL_PADDING,
             right: Config.LABEL_INTERNAL_PADDING
         )
         resultLabel.backgroundColor = labelBackground
         resultLabel.autoscaleFont()
         
         
-        //It will Hide Keyboard
-        currentCalculationLabel.inputView = UIView()
-        //It will Hide Keyboard tool bar
-        currentCalculationLabel.inputAccessoryView = UIView()
-        //It will Hide the cursor
-        currentCalculationLabel.tintColor = .white
+//        //It will Hide Keyboard
+//        currentCalculationLabel.inputView = UIView()
+//        //It will Hide Keyboard tool bar
+//        currentCalculationLabel.inputAccessoryView = UIView()
+//        //It will Hide the cursor
+//        currentCalculationLabel.tintColor = .white
         
-//        currentCalculationLabel.textColor = .white
+        currentCalculationLabel.textColor = .white
         currentCalculationLabel.backgroundColor = .systemGray
         currentCalculationLabel.textAlignment = .right
         currentCalculationLabel.font = .systemFont(ofSize: Config.CURRENT_CALCULATION_FONT_SIZE)
-//        currentCalculationLabel.setMargins(
-//            top: 0,
-//            left: Config.LABEL_INTERNAL_PADDING,
-//            bottom: Config.LABEL_INTERNAL_PADDING,
-//            right: Config.LABEL_INTERNAL_PADDING
-//        )
+        currentCalculationLabel.setMargins(
+            top: Config.LABEL_INTERNAL_PADDING,
+            left: Config.LABEL_INTERNAL_PADDING,
+            bottom: Config.LABEL_INTERNAL_PADDING,
+            right: Config.LABEL_INTERNAL_PADDING
+        )
         currentCalculationLabel.backgroundColor = labelBackground
-//        // font size
-//        currentCalculationLabel.autoscaleFont()
-//
-//        // add internal margins
-//        currentCalculationLabel.setMargins(margin: Config.LABEL_INTERNAL_PADDING)
+        // font size
+        currentCalculationLabel.autoscaleFont()
+
+        // add internal margins
+        currentCalculationLabel.setMargins(margin: Config.LABEL_INTERNAL_PADDING)
         
         labelStackView.addBackground(color: .systemBlue)
         labelStackView.isLayoutMarginsRelativeArrangement = true
@@ -117,18 +121,18 @@ class ViewController: UIViewController {
         labelStackView.axis = .vertical
         
         // current calculation label
-        resultLabel.topAnchor.constraint(equalTo: labelStackView.topAnchor, constant: 0).isActive = true
-        resultLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
-        resultLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
-        resultLabel.bottomAnchor.constraint(equalTo: currentCalculationLabel.topAnchor, constant: 0).isActive = true
-        resultLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: Config.LABEL_RESULT_RATIO_IN_CONTAINER).isActive = true
-        
-        // result label
-        currentCalculationLabel.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 0).isActive = true
+        currentCalculationLabel.topAnchor.constraint(equalTo: labelStackView.topAnchor, constant: 0).isActive = true
         currentCalculationLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
         currentCalculationLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
-        currentCalculationLabel.bottomAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
+        currentCalculationLabel.bottomAnchor.constraint(equalTo: resultLabel.topAnchor, constant: 0).isActive = true
         currentCalculationLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: Config.LABEL_CURRENT_CALCULATION_RATIO_IN_CONTAINER).isActive = true
+        
+        // result label
+        resultLabel.topAnchor.constraint(equalTo: currentCalculationLabel.bottomAnchor, constant: 0).isActive = true
+        resultLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
+        resultLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
+        resultLabel.bottomAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
+        resultLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: Config.LABEL_RESULT_RATIO_IN_CONTAINER).isActive = true
         
         // label stackview
         labelStackView.topAnchor.constraint(equalTo: rootStackView.topAnchor, constant: 0).isActive = true
@@ -215,9 +219,11 @@ class ViewController: UIViewController {
         switch(data.id) {
             
         case Symbol.delete.id:
-            if(!inProgressCalculation.isEmpty){
-                inProgressCalculation.remove(at: currentCalculationLabel.getCurrentIndex())
+            if(!inProgressCalculation.isEmpty) {
                 // TODO: update cursor index to last known location
+                // inProgressCalculation.remove(at: currentCalculationLabel.getCurrentIndex())
+                inProgressCalculation.removeLast()
+              
             }
         default:
             inProgressCalculation += data.label
@@ -230,30 +236,41 @@ class ViewController: UIViewController {
         
         currentCalculationLabel.text  = inProgressCalculation
         
-        updateResult()
+        analyzeString(temp)
     }
     
-    // evaluate formula
-    private func updateResult() {
+    func analyzeString(_ string: String) {
+        resultLabel.text = ""
         
-        // update result
         do {
-            try TryCatch.catchException {
-                
-                let normalizedExpression =  normalize(expression: self.temp)
-                
-                let expr = NSExpression(format: normalizedExpression)
-                
-                if let result = expr.expressionValue(with: nil, context: nil) as? Double {
-                    
-                    self.temp = doubleToString(doubleVal: result)
-                        .replacingOccurrences(of: MathSymbol.comma.mathValue, with:  MathSymbol.comma.label)
-                    
-                    self.resultLabel.text = self.temp
-                }
-            }
-        } catch {
-            // print("An error ocurred: \(error)")
+            let operatorSet = OperatorSet(interpretsPercentSignAsModulo: false)
+            let e = try Expression(string: string, operatorSet: operatorSet)
+            parsedExpression = e
+            
+            reevaluateExpression()
+            
+        } catch let e as MathParserError {
+            parsedExpression = nil
+            // analyzerDelegate?.analyzerViewController(self, wantsErrorPresented: e)
+            print("error", e)
+        } catch let other {
+            fatalError("Unknown error parsing expression: \(other)")
+        }
+    }
+    
+    func reevaluateExpression() {
+        guard let expression = parsedExpression else { return }
+        // analyzerDelegate?.analyzerViewController(self, wantsErrorPresented: nil)
+        
+        let evaluator = Evaluator.default
+        do {
+            let result = try evaluator.evaluate(expression)
+            resultLabel.text = "\(result)"
+        } catch let e as MathParserError {
+            // analyzerDelegate?.analyzerViewController(self, wantsErrorPresented: e)
+            print("error", e)
+        } catch let e {
+            fatalError("Unknown error evaluating expression: \(e)")
         }
     }
 }

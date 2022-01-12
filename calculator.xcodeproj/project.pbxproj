@@ -20,6 +20,7 @@
 		3FD5A61F2788C5B600B7EF34 /* TryCatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A61E2788C5B600B7EF34 /* TryCatch.m */; };
 		3FD5A621278C7CC900B7EF34 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A620278C7CC900B7EF34 /* Config.swift */; };
 		3FD5A623278CA7AA00B7EF34 /* StringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A622278CA7AA00B7EF34 /* StringUtils.swift */; };
+		3FD5A639278F572A00B7EF34 /* MathParser in Frameworks */ = {isa = PBXBuildFile; productRef = 3FD5A638278F572A00B7EF34 /* MathParser */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FD5A639278F572A00B7EF34 /* MathParser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +134,9 @@
 			dependencies = (
 			);
 			name = calculator;
+			packageProductDependencies = (
+				3FD5A638278F572A00B7EF34 /* MathParser */,
+			);
 			productName = calculator;
 			productReference = 3FD5A5D3278446AF00B7EF34 /* calculator.app */;
 			productType = "com.apple.product-type.application";
@@ -161,6 +166,9 @@
 				Base,
 			);
 			mainGroup = 3FD5A5CA278446AF00B7EF34;
+			packageReferences = (
+				3FD5A637278F572A00B7EF34 /* XCRemoteSwiftPackageReference "DDMathParser" */,
+			);
 			productRefGroup = 3FD5A5D4278446AF00B7EF34 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -422,6 +430,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3FD5A637278F572A00B7EF34 /* XCRemoteSwiftPackageReference "DDMathParser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/davedelong/DDMathParser.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3FD5A638278F572A00B7EF34 /* MathParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3FD5A637278F572A00B7EF34 /* XCRemoteSwiftPackageReference "DDMathParser" */;
+			productName = MathParser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3FD5A5CB278446AF00B7EF34 /* Project object */;
 }
