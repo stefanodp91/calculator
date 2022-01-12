@@ -8,7 +8,7 @@
 import UIKit
 import MathParser
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, EvaluatorDelegate {
     
     @IBOutlet weak var rootStackView: UIStackView!
     
@@ -19,11 +19,15 @@ class ViewController: UIViewController {
     private var labelStackView = UIStackView()
     private var buttonsStackView : UIStackView?
     
-    // DDMathParser
-    var parsedExpression: Expression?
+    //    // DDMathParser
+    //    var parsedExpression: Expression?
+    
+    private var evaluatorController: EvaluatorController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        evaluatorController = EvaluatorController(self)
         
         // main container stackview
         setupRoot()
@@ -68,12 +72,12 @@ class ViewController: UIViewController {
         resultLabel.autoscaleFont()
         
         
-//        //It will Hide Keyboard
-//        currentCalculationLabel.inputView = UIView()
-//        //It will Hide Keyboard tool bar
-//        currentCalculationLabel.inputAccessoryView = UIView()
-//        //It will Hide the cursor
-//        currentCalculationLabel.tintColor = .white
+        //        //It will Hide Keyboard
+        //        currentCalculationLabel.inputView = UIView()
+        //        //It will Hide Keyboard tool bar
+        //        currentCalculationLabel.inputAccessoryView = UIView()
+        //        //It will Hide the cursor
+        //        currentCalculationLabel.tintColor = .white
         
         currentCalculationLabel.textColor = .white
         currentCalculationLabel.backgroundColor = .systemGray
@@ -88,7 +92,7 @@ class ViewController: UIViewController {
         currentCalculationLabel.backgroundColor = labelBackground
         // font size
         currentCalculationLabel.autoscaleFont()
-
+        
         // add internal margins
         currentCalculationLabel.setMargins(margin: Config.LABEL_INTERNAL_PADDING)
         
@@ -221,9 +225,8 @@ class ViewController: UIViewController {
         case Symbol.delete.id:
             if(!inProgressCalculation.isEmpty) {
                 // TODO: update cursor index to last known location
-                // inProgressCalculation.remove(at: currentCalculationLabel.getCurrentIndex())
                 inProgressCalculation.removeLast()
-              
+                
             }
         default:
             inProgressCalculation += data.label
@@ -236,41 +239,19 @@ class ViewController: UIViewController {
         
         currentCalculationLabel.text  = inProgressCalculation
         
-        analyzeString(temp)
-    }
-    
-    func analyzeString(_ string: String) {
         resultLabel.text = ""
-        
-        do {
-            let operatorSet = OperatorSet(interpretsPercentSignAsModulo: false)
-            let e = try Expression(string: string, operatorSet: operatorSet)
-            parsedExpression = e
-            
-            reevaluateExpression()
-            
-        } catch let e as MathParserError {
-            parsedExpression = nil
-            // analyzerDelegate?.analyzerViewController(self, wantsErrorPresented: e)
-            print("error", e)
-        } catch let other {
-            fatalError("Unknown error parsing expression: \(other)")
-        }
+        evaluatorController?.evaluate(temp)
     }
     
-    func reevaluateExpression() {
-        guard let expression = parsedExpression else { return }
-        // analyzerDelegate?.analyzerViewController(self, wantsErrorPresented: nil)
-        
-        let evaluator = Evaluator.default
-        do {
-            let result = try evaluator.evaluate(expression)
-            resultLabel.text = "\(result)"
-        } catch let e as MathParserError {
-            // analyzerDelegate?.analyzerViewController(self, wantsErrorPresented: e)
-            print("error", e)
-        } catch let e {
-            fatalError("Unknown error evaluating expression: \(e)")
-        }
+    func onEvaluation(_ result: String) {
+        resultLabel.text = "\(result)"
+    }
+    
+    func onMathEvaluationError(_ error: MathParserError) {
+        // print("onMathEvaluationError", error)
+    }
+    
+    func onMathEvaluationFatalError(_ error: Error) {
+        fatalError("Unknown error parsing expression: \(error)")
     }
 }

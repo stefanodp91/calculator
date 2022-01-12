@@ -17,6 +17,7 @@ extension UIStackView {
 }
 
 extension UIColor {
+    
     convenience init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")
@@ -35,6 +36,7 @@ extension UIColor {
 }
 
 extension UILabel {
+    
     func setMargins(margin: CGFloat = 10) {
         if let textString = self.text {
             let paragraphStyle = NSMutableParagraphStyle()
@@ -50,20 +52,5 @@ extension UILabel {
     func autoscaleFont(fontFactor: CGFloat = Config.LABEL_TEXT_SCALE_FACTOR) {
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = fontFactor
-    }
-}
-
-
-extension UITextField {
-    
-    func getCurrentIndex() -> Int {
-        
-        if let selectedRange = self.selectedTextRange {
-            let cursorPosition = self.offset(from: self.beginningOfDocument, to: selectedRange.start)
-//            print("\(cursorPosition)")
-            return cursorPosition
-        }
-        
-        return -1
     }
 }
