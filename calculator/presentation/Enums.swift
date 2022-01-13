@@ -1,8 +1,8 @@
 //
-//  Data.swift
+//  Enums.swift
 //  calculator
 //
-//  Created by Stefano De Pascalis on 04/01/22.
+//  Created by Stefano De Pascalis on 12/01/22.
 //
 
 enum Cipher {
@@ -126,61 +126,3 @@ enum Symbol {
         }
     }
 }
-
-struct Data {
-    var id: String
-    var label: String
-    var type: DataType = DataType.undefined
-    var weight: Int = 1
-    
-    internal init(id: String, label: String, type:DataType) {
-        self.id = id
-        self.label = label
-        self.type = type
-    }
-}
-
-var dataSource =  [
-    
-//    [
-//        Data(id: Symbol.clear.id, label: Symbol.clear.label, type: DataType.symbol),
-//        Data(id: MathSymbol.sqrt.id, label: MathSymbol.sqrt.label, type: DataType.symbol),
-//    ],
-    
-    [
-//        Data(id: Symbol.clear.id, label: Symbol.clear.label, type: DataType.symbol),
-        Data(id: MathSymbol.leftParentheses.id, label: MathSymbol.leftParentheses.label, type: DataType.symbol),
-        Data(id: MathSymbol.rightParentheses.id, label: MathSymbol.rightParentheses.label, type: DataType.symbol),
-        Data(id: MathSymbol.percentage.id, label: MathSymbol.percentage.label, type: DataType.symbol),
-        Data(id: Operation.division.id, label: Operation.division.label, type: DataType.operation),
-    ],
-    
-    [
-        Data(id: Cipher.seven.id, label: Cipher.seven.label, type: DataType.number),
-        Data(id: Cipher.eight.id, label: Cipher.eight.label, type: DataType.number),
-        Data(id: Cipher.nine.id, label: Cipher.nine.label, type: DataType.number),
-        Data(id: Operation.multiplication.id, label: Operation.multiplication.label, type: DataType.operation),
-    ],
-    
-    [
-        Data(id: Cipher.four.id, label: Cipher.four.label, type: DataType.number),
-        Data(id: Cipher.five.id, label: Cipher.five.label, type: DataType.number),
-        Data(id: Cipher.six.id, label: Cipher.six.label, type: DataType.number),
-        Data(id: Operation.subtraction.id, label: Operation.subtraction.label, type: DataType.operation),
-    ],
-    
-    [
-        Data(id: Cipher.one.id, label: Cipher.one.label, type: DataType.number),
-        Data(id: Cipher.two.id, label: Cipher.two.label, type: DataType.number),
-        Data(id: Cipher.three.id, label: Cipher.three.label, type: DataType.number),
-        Data(id: Operation.sum.id, label: Operation.sum.label, type: DataType.operation),
-    ],
-    
-    [
-        Data(id: Cipher.zero.id, label: Cipher.zero.label, type: DataType.number),
-        Data(id: MathSymbol.comma.id, label: MathSymbol.comma.label, type: DataType.symbol),
-        Data(id: Symbol.delete.id, label: Symbol.delete.label, type: DataType.symbol),
-        Data(id: MathSymbol.result.id, label: MathSymbol.result.label, type: DataType.result),
-    ]
-]
-

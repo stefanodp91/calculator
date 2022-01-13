@@ -37,7 +37,7 @@ extension UIColor {
 
 extension UILabel {
     
-    func setMargins(margin: CGFloat = 10) {
+    func setMargins(_ margin: CGFloat = 10) {
         if let textString = self.text {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.firstLineHeadIndent = margin
@@ -49,7 +49,7 @@ extension UILabel {
         }
     }
     
-    func autoscaleFont(fontFactor: CGFloat = Config.LABEL_TEXT_SCALE_FACTOR) {
+    func autoscaleFont(_ fontFactor: CGFloat) {
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = fontFactor
     }

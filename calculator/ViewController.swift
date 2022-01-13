@@ -8,243 +8,104 @@
 import UIKit
 import MathParser
 
-class ViewController: UIViewController, EvaluatorDelegate {
+class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
+    
     
     @IBOutlet weak var rootStackView: UIStackView!
     
-    private var inProgressCalculation: String = ""
-    
-    private var currentCalculationLabel = CustomUILabel()
-    private var resultLabel = CustomUILabel()
-    private var labelStackView = UIStackView()
-    private var buttonsStackView : UIStackView?
-    
-    //    // DDMathParser
-    //    var parsedExpression: Expression?
     
     private var evaluatorController: EvaluatorController?
+    private var calculatorUI: CalculatorUI?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // setup ui
+        setupCalculatorUI()
+        
+        // setup evaluator
         evaluatorController = EvaluatorController(self)
         
-        // main container stackview
-        setupRoot()
-        
-        // current calculation and result label
-        setupLabels()
-        
-        // Buttons
-        setupButtons()
-        
-        // Add views layout
-        labelStackView.addArrangedSubview(currentCalculationLabel)
-        labelStackView.addArrangedSubview(resultLabel)
-        rootStackView.addArrangedSubview(labelStackView)
-        rootStackView.addArrangedSubview(buttonsStackView!)
-        
-        setupConstraints()
     }
     
-    private func setupRoot() {
+    private func createConfiguration() -> UIConfiguration {
+        return UIConfigurationBuilder()
+            .addRow([
+                // DataBean(id: Symbol.clear.id, label: Symbol.clear.label, type: DataType.symbol),
+                DataBean(id: MathSymbol.leftParentheses.id, label: MathSymbol.leftParentheses.label, type: DataType.symbol),
+                DataBean(id: MathSymbol.rightParentheses.id, label: MathSymbol.rightParentheses.label, type: DataType.symbol),
+                DataBean(id: MathSymbol.percentage.id, label: MathSymbol.percentage.label, type: DataType.symbol),
+                DataBean(id: Operation.division.id, label: Operation.division.label, type: DataType.operation),
+            ])
+            .addRow([
+                DataBean(id: Cipher.seven.id, label: Cipher.seven.label, type: DataType.number),
+                DataBean(id: Cipher.eight.id, label: Cipher.eight.label, type: DataType.number),
+                DataBean(id: Cipher.nine.id, label: Cipher.nine.label, type: DataType.number),
+                DataBean(id: Operation.multiplication.id, label: Operation.multiplication.label, type: DataType.operation),
+            ])
+            .addRow([
+                DataBean(id: Cipher.four.id, label: Cipher.four.label, type: DataType.number),
+                DataBean(id: Cipher.five.id, label: Cipher.five.label, type: DataType.number),
+                DataBean(id: Cipher.six.id, label: Cipher.six.label, type: DataType.number),
+                DataBean(id: Operation.subtraction.id, label: Operation.subtraction.label, type: DataType.operation),
+            ])
+            .addRow([
+                DataBean(id: Cipher.one.id, label: Cipher.one.label, type: DataType.number),
+                DataBean(id: Cipher.two.id, label: Cipher.two.label, type: DataType.number),
+                DataBean(id: Cipher.three.id, label: Cipher.three.label, type: DataType.number),
+                DataBean(id: Operation.sum.id, label: Operation.sum.label, type: DataType.operation),
+            ])
+            .addRow([
+                DataBean(id: Cipher.zero.id, label: Cipher.zero.label, type: DataType.number),
+                DataBean(id: MathSymbol.comma.id, label: MathSymbol.comma.label, type: DataType.symbol),
+                DataBean(id: Symbol.delete.id, label: Symbol.delete.label, type: DataType.symbol),
+                DataBean(id: MathSymbol.result.id, label: MathSymbol.result.label, type: DataType.result),
+            ])
+            .setLabelsContainerScreenRatio(0.5)
+            .setButtonsContainerScreenRatio(0.5)
+            .setLabelResultRationInContainer(0.2)
+            .setLabelCurrentCalculationRatioInContainer(0.8)
+            .setLabelTextScaleFactor(0.2)
+            .setLabelRadius(16)
+            .setLabelContainerPadding(8)
+            .setLabelInternalPadding(25)
+            .setButtonsContainerPadding(8)
+            .setButtonsSpacing(12)
+            .setResultFontSize(60)
+            .setCurrentCalculationFontSize(100)
+            .setButtonFontSize(40)
+            .setButtonRadius(16)
+            .build()
+    }
+    
+    private func setupCalculatorUI() {
+        // setup root
         rootStackView.axis = .vertical
         rootStackView.alignment = .center
         rootStackView.distribution = .fill
-        rootStackView.addBackground(color: .systemGray6)
+        
+        // setup calculator
+        calculatorUI = CalculatorUI()
+        calculatorUI!.drawUI(createConfiguration())
+        calculatorUI!.clickDelegate = self
+        
+        // add calculator to layout
+        rootStackView.addArrangedSubview(calculatorUI!)
+        
+        // setup constraints
+        calculatorUI!.translatesAutoresizingMaskIntoConstraints = false
+        calculatorUI!.topAnchor.constraint(equalTo: rootStackView.topAnchor, constant: 0).isActive = true
+        calculatorUI!.leadingAnchor.constraint(equalTo: rootStackView.leadingAnchor, constant: 0).isActive = true
+        calculatorUI!.trailingAnchor.constraint(equalTo: rootStackView.trailingAnchor, constant: 0).isActive = true
+        calculatorUI!.bottomAnchor.constraint(equalTo: rootStackView.bottomAnchor, constant: 0).isActive = true
     }
     
-    private func setupLabels() {
-        
-        let labelBackground : UIColor = .systemBlue
-        
-        resultLabel.textColor = .white
-        resultLabel.backgroundColor = .systemGray
-        resultLabel.textAlignment = .right
-        resultLabel.font = .systemFont(ofSize: Config.RESULT_FONT_SIZE)
-        resultLabel.setMargins(
-            top: Config.LABEL_INTERNAL_PADDING,
-            left: Config.LABEL_INTERNAL_PADDING,
-            bottom: Config.LABEL_INTERNAL_PADDING,
-            right: Config.LABEL_INTERNAL_PADDING
-        )
-        resultLabel.backgroundColor = labelBackground
-        resultLabel.autoscaleFont()
-        
-        
-        //        //It will Hide Keyboard
-        //        currentCalculationLabel.inputView = UIView()
-        //        //It will Hide Keyboard tool bar
-        //        currentCalculationLabel.inputAccessoryView = UIView()
-        //        //It will Hide the cursor
-        //        currentCalculationLabel.tintColor = .white
-        
-        currentCalculationLabel.textColor = .white
-        currentCalculationLabel.backgroundColor = .systemGray
-        currentCalculationLabel.textAlignment = .right
-        currentCalculationLabel.font = .systemFont(ofSize: Config.CURRENT_CALCULATION_FONT_SIZE)
-        currentCalculationLabel.setMargins(
-            top: Config.LABEL_INTERNAL_PADDING,
-            left: Config.LABEL_INTERNAL_PADDING,
-            bottom: Config.LABEL_INTERNAL_PADDING,
-            right: Config.LABEL_INTERNAL_PADDING
-        )
-        currentCalculationLabel.backgroundColor = labelBackground
-        // font size
-        currentCalculationLabel.autoscaleFont()
-        
-        // add internal margins
-        currentCalculationLabel.setMargins(margin: Config.LABEL_INTERNAL_PADDING)
-        
-        labelStackView.addBackground(color: .systemBlue)
-        labelStackView.isLayoutMarginsRelativeArrangement = true
-    }
-    
-    private func setupButtons() {
-        
-        buttonsStackView = createButtonsStackView()
-        
-        // add external margin to buttons stackview
-        buttonsStackView!.layoutMargins = .init(
-            top: Config.BUTTONS_CONTAINER_PADDING,
-            left: Config.BUTTONS_CONTAINER_PADDING,
-            bottom: Config.BUTTONS_CONTAINER_PADDING,
-            right: Config.BUTTONS_CONTAINER_PADDING
-        )
-        buttonsStackView!.isLayoutMarginsRelativeArrangement = true
-        
-    }
-    
-    private func setupConstraints() {
-        // ignore default constraints
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
-        buttonsStackView!.translatesAutoresizingMaskIntoConstraints = false
-        currentCalculationLabel.translatesAutoresizingMaskIntoConstraints = false
-        resultLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        labelStackView.axis = .vertical
-        
-        // current calculation label
-        currentCalculationLabel.topAnchor.constraint(equalTo: labelStackView.topAnchor, constant: 0).isActive = true
-        currentCalculationLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
-        currentCalculationLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
-        currentCalculationLabel.bottomAnchor.constraint(equalTo: resultLabel.topAnchor, constant: 0).isActive = true
-        currentCalculationLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: Config.LABEL_CURRENT_CALCULATION_RATIO_IN_CONTAINER).isActive = true
-        
-        // result label
-        resultLabel.topAnchor.constraint(equalTo: currentCalculationLabel.bottomAnchor, constant: 0).isActive = true
-        resultLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
-        resultLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
-        resultLabel.bottomAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
-        resultLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: Config.LABEL_RESULT_RATIO_IN_CONTAINER).isActive = true
-        
-        // label stackview
-        labelStackView.topAnchor.constraint(equalTo: rootStackView.topAnchor, constant: 0).isActive = true
-        labelStackView.leadingAnchor.constraint(equalTo: rootStackView.leadingAnchor, constant: 0).isActive = true
-        labelStackView.trailingAnchor.constraint(equalTo: rootStackView.trailingAnchor, constant: 0).isActive = true
-        labelStackView.bottomAnchor.constraint(equalTo: buttonsStackView!.topAnchor, constant: 0).isActive = true
-        labelStackView.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: Config.LABEL_CONTAINER_SCREEN_RATIO).isActive = true
-        
-        // button stackview
-        buttonsStackView!.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
-        buttonsStackView!.leadingAnchor.constraint(equalTo: rootStackView.leadingAnchor, constant: 0).isActive = true
-        buttonsStackView!.trailingAnchor.constraint(equalTo: rootStackView.trailingAnchor, constant: 0).isActive = true
-        buttonsStackView!.bottomAnchor.constraint(equalTo: rootStackView.bottomAnchor, constant: 0).isActive = true
-        buttonsStackView!.heightAnchor.constraint(equalTo: rootStackView.heightAnchor, multiplier: Config.BUTTONS_CONTAINER_SCREEN_RATIO).isActive = true
-    }
-    
-    private func createButtonsStackView() -> UIStackView {
-        
-        var groups = [UIStackView]()
-        
-        for subGroup in dataSource {
-            let group = createButtons(subGroup: subGroup)
-            let rowStackView = UIStackView(arrangedSubviews: group)
-            rowStackView.axis = .horizontal
-            rowStackView.distribution = .fillEqually
-            rowStackView.spacing = Config.BUTTON_SPACING
-            groups.append(rowStackView)
-        }
-        
-        let buttonsStackView = UIStackView(arrangedSubviews: groups)
-        buttonsStackView.axis = .vertical
-        buttonsStackView.distribution = .fillEqually
-        buttonsStackView.spacing = Config.BUTTON_SPACING
-        
-        return buttonsStackView
-    }
-    
-    func createButtons(subGroup: [Data]) -> [UIButton]{
-        return subGroup.map { element in
-            let button = UIButton()
-            button.tag = element.id.hashValue
-            button.setTitle(element.label, for: .normal)
-            button.setTitleColor( .white , for: .normal)
-            button.titleLabel?.font =  .systemFont(ofSize: Config.BUTTON_FONT_SIZE)
-            button.layer.cornerRadius = Config.BUTTON_RADIUS
-            button.titleLabel?.adjustsFontSizeToFitWidth = true;
-            
-            var backgroundColor : UIColor
-            switch(element.type){
-            case .operation: backgroundColor = .systemGray4
-            case .result:backgroundColor = .systemBlue
-            default :backgroundColor = .systemGray6
-            }
-            
-            button.backgroundColor = backgroundColor
-            button.addTarget(self, action: #selector(onClick(sender:)), for: .touchUpInside)
-            
-            return button
-        }
-    }
-    
-    @objc func onClick(sender: UIButton?) {
-        var element: Data?
-        
-        // find element with the specified id
-        for subGroup in dataSource {
-            let founded = subGroup.filter { element in
-                return sender?.tag == element.id.hashValue
-            }
-            
-            if(!founded.isEmpty) {
-                element = founded.first
-                break
-            }
-        }
-        
-        if let element = element {
-            handleClick(data: element)
-        }
-    }
-    
-    var temp: String = ""
-    private func handleClick(data: Data) {
-        switch(data.id) {
-            
-        case Symbol.delete.id:
-            if(!inProgressCalculation.isEmpty) {
-                // TODO: update cursor index to last known location
-                inProgressCalculation.removeLast()
-                
-            }
-        default:
-            inProgressCalculation += data.label
-        }
-        
-        temp = inProgressCalculation
-            .replacingOccurrences(of: Operation.multiplication.label, with: Operation.multiplication.id)
-            .replacingOccurrences(of: Operation.division.label, with: Operation.division.id)
-            .replacingOccurrences(of: MathSymbol.comma.label, with: MathSymbol.comma.mathValue)
-        
-        currentCalculationLabel.text  = inProgressCalculation
-        
-        resultLabel.text = ""
-        evaluatorController?.evaluate(temp)
+    func onButtonClicked(_ buttonId: String, _ expression: String) {
+        evaluatorController?.evaluate(expression)
     }
     
     func onEvaluation(_ result: String) {
-        resultLabel.text = "\(result)"
+        calculatorUI?.updateResult("\(result)")
     }
     
     func onMathEvaluationError(_ error: MathParserError) {

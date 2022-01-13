@@ -13,13 +13,16 @@
 		3FD5A5DE278446AF00B7EF34 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FD5A5DC278446AF00B7EF34 /* Main.storyboard */; };
 		3FD5A5E0278446B100B7EF34 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3FD5A5DF278446B100B7EF34 /* Assets.xcassets */; };
 		3FD5A5E3278446B100B7EF34 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3FD5A5E1278446B100B7EF34 /* LaunchScreen.storyboard */; };
-		3FD5A5F32784831600B7EF34 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A5F22784831600B7EF34 /* Data.swift */; };
 		3FD5A6022785CE7B00B7EF34 /* UIUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */; };
 		3FD5A60527860FF000B7EF34 /* CustomUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A60427860FF000B7EF34 /* CustomUILabel.swift */; };
-		3FD5A621278C7CC900B7EF34 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A620278C7CC900B7EF34 /* Config.swift */; };
 		3FD5A639278F572A00B7EF34 /* MathParser in Frameworks */ = {isa = PBXBuildFile; productRef = 3FD5A638278F572A00B7EF34 /* MathParser */; };
 		3FD5A63E278F745C00B7EF34 /* EvaluatorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A63D278F745C00B7EF34 /* EvaluatorController.swift */; };
 		3FD5A640278F756F00B7EF34 /* EvaluatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A63F278F756F00B7EF34 /* EvaluatorDelegate.swift */; };
+		3FD5A645278F824000B7EF34 /* CalculatorUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A644278F824000B7EF34 /* CalculatorUI.swift */; };
+		3FD5A64B278F831300B7EF34 /* DataBean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A64A278F831300B7EF34 /* DataBean.swift */; };
+		3FD5A64D278F833F00B7EF34 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A64C278F833F00B7EF34 /* Enums.swift */; };
+		3FD5A651278F896800B7EF34 /* UIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A650278F896800B7EF34 /* UIConfiguration.swift */; };
+		3FD5A653278F9C4400B7EF34 /* ButtonClickDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD5A652278F9C4400B7EF34 /* ButtonClickDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,13 +33,16 @@
 		3FD5A5DD278446AF00B7EF34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3FD5A5DF278446B100B7EF34 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3FD5A5E2278446B100B7EF34 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3FD5A5F22784831600B7EF34 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIUtils.swift; sourceTree = "<group>"; };
 		3FD5A60427860FF000B7EF34 /* CustomUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUILabel.swift; sourceTree = "<group>"; };
 		3FD5A61A2788C4F400B7EF34 /* calculator-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "calculator-Bridging-Header.h"; path = "../../../../.Trash/calculator-Bridging-Header.h"; sourceTree = "<group>"; };
-		3FD5A620278C7CC900B7EF34 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		3FD5A63D278F745C00B7EF34 /* EvaluatorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorController.swift; sourceTree = "<group>"; };
 		3FD5A63F278F756F00B7EF34 /* EvaluatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EvaluatorDelegate.swift; sourceTree = "<group>"; };
+		3FD5A644278F824000B7EF34 /* CalculatorUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorUI.swift; sourceTree = "<group>"; };
+		3FD5A64A278F831300B7EF34 /* DataBean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBean.swift; sourceTree = "<group>"; };
+		3FD5A64C278F833F00B7EF34 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		3FD5A650278F896800B7EF34 /* UIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConfiguration.swift; sourceTree = "<group>"; };
+		3FD5A652278F9C4400B7EF34 /* ButtonClickDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonClickDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,10 +76,8 @@
 		3FD5A5D5278446AF00B7EF34 /* calculator */ = {
 			isa = PBXGroup;
 			children = (
+				3FD5A643278F81EC00B7EF34 /* presentation */,
 				3FD5A63C278F73F900B7EF34 /* business */,
-				3FD5A60627860FF700B7EF34 /* views */,
-				3FD5A6032785FAEA00B7EF34 /* utils */,
-				3FD5A5EE278482E500B7EF34 /* model */,
 				3FD5A5D6278446AF00B7EF34 /* AppDelegate.swift */,
 				3FD5A5D8278446AF00B7EF34 /* SceneDelegate.swift */,
 				3FD5A5DA278446AF00B7EF34 /* ViewController.swift */,
@@ -85,26 +89,10 @@
 			path = calculator;
 			sourceTree = "<group>";
 		};
-		3FD5A5EE278482E500B7EF34 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				3FD5A5F22784831600B7EF34 /* Data.swift */,
-				3FD5A620278C7CC900B7EF34 /* Config.swift */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
-		3FD5A6032785FAEA00B7EF34 /* utils */ = {
-			isa = PBXGroup;
-			children = (
-				3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */,
-			);
-			path = utils;
-			sourceTree = "<group>";
-		};
 		3FD5A60627860FF700B7EF34 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */,
 				3FD5A60427860FF000B7EF34 /* CustomUILabel.swift */,
 			);
 			path = views;
@@ -117,6 +105,19 @@
 				3FD5A63F278F756F00B7EF34 /* EvaluatorDelegate.swift */,
 			);
 			path = business;
+			sourceTree = "<group>";
+		};
+		3FD5A643278F81EC00B7EF34 /* presentation */ = {
+			isa = PBXGroup;
+			children = (
+				3FD5A60627860FF700B7EF34 /* views */,
+				3FD5A644278F824000B7EF34 /* CalculatorUI.swift */,
+				3FD5A64A278F831300B7EF34 /* DataBean.swift */,
+				3FD5A64C278F833F00B7EF34 /* Enums.swift */,
+				3FD5A650278F896800B7EF34 /* UIConfiguration.swift */,
+				3FD5A652278F9C4400B7EF34 /* ButtonClickDelegate.swift */,
+			);
+			path = presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,10 +199,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3FD5A640278F756F00B7EF34 /* EvaluatorDelegate.swift in Sources */,
+				3FD5A653278F9C4400B7EF34 /* ButtonClickDelegate.swift in Sources */,
+				3FD5A645278F824000B7EF34 /* CalculatorUI.swift in Sources */,
 				3FD5A60527860FF000B7EF34 /* CustomUILabel.swift in Sources */,
-				3FD5A621278C7CC900B7EF34 /* Config.swift in Sources */,
 				3FD5A5DB278446AF00B7EF34 /* ViewController.swift in Sources */,
-				3FD5A5F32784831600B7EF34 /* Data.swift in Sources */,
+				3FD5A64B278F831300B7EF34 /* DataBean.swift in Sources */,
+				3FD5A651278F896800B7EF34 /* UIConfiguration.swift in Sources */,
+				3FD5A64D278F833F00B7EF34 /* Enums.swift in Sources */,
 				3FD5A6022785CE7B00B7EF34 /* UIUtils.swift in Sources */,
 				3FD5A63E278F745C00B7EF34 /* EvaluatorController.swift in Sources */,
 				3FD5A5D7278446AF00B7EF34 /* AppDelegate.swift in Sources */,
