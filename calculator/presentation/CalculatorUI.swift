@@ -9,10 +9,8 @@ import Foundation
 import UIKit
 import SwiftUI
 
-// TODO: convert this stackview to uiview
-public class CalculatorUI : UIStackView {
+public class CalculatorUI : UIView {
     
-    //    private var rootStackView: UIStackView = UIStackView()
     private var currentCalculationLabel = CustomUILabel()
     private var resultLabel = CustomUILabel()
     private var labelStackView = UIStackView()
@@ -27,8 +25,7 @@ public class CalculatorUI : UIStackView {
     func drawUI(_ configuration: UIConfiguration) {
         self.configuration = configuration
         
-        // main container stackview
-        setupRoot()
+        backgroundColor = .systemGray6
         
         // current calculation and result label
         setupLabels()
@@ -39,21 +36,15 @@ public class CalculatorUI : UIStackView {
         // Add views layout
         labelStackView.addArrangedSubview(currentCalculationLabel)
         labelStackView.addArrangedSubview(resultLabel)
-        self.addArrangedSubview(labelStackView)
-        self.addArrangedSubview(buttonsStackView!)
+        
+        self.addSubview(labelStackView)
+        self.addSubview(buttonsStackView!)
         
         setupConstraints()
     }
     
     func updateResult(_ result: String) {
         resultLabel.text = "\(result)"
-    }
-    
-    private func setupRoot() {
-        self.axis = .vertical
-        self.alignment = .center
-        self.distribution = .fill
-        self.addBackground(color: .systemGray6)
     }
     
     private func setupLabels() {
@@ -136,8 +127,7 @@ public class CalculatorUI : UIStackView {
             currentCalculationLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
             currentCalculationLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
             currentCalculationLabel.bottomAnchor.constraint(equalTo: resultLabel.topAnchor, constant: 0).isActive = true
-            currentCalculationLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier:
-                                                                CGFloat(configuration.builder.labelCurrentCalculationRatioInContainer)).isActive = true
+            currentCalculationLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: CGFloat(configuration.builder.labelCurrentCalculationRatioInContainer)).isActive = true
             
             // result label
             resultLabel.topAnchor.constraint(equalTo: currentCalculationLabel.bottomAnchor, constant: 0).isActive = true
@@ -151,14 +141,14 @@ public class CalculatorUI : UIStackView {
             labelStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
             labelStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
             labelStackView.bottomAnchor.constraint(equalTo: buttonsStackView!.topAnchor, constant: 0).isActive = true
-            labelStackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier:    CGFloat(configuration.builder.labelsContainerScreenRatio)).isActive = true
+            labelStackView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: CGFloat(configuration.builder.labelsContainerScreenRatio)).isActive = true
             
             // button stackview
             buttonsStackView!.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
             buttonsStackView!.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0).isActive = true
             buttonsStackView!.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 0).isActive = true
             buttonsStackView!.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
-            buttonsStackView!.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier:    CGFloat(configuration.builder.buttonsContainerScreenRatio)).isActive = true
+            buttonsStackView!.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: CGFloat(configuration.builder.buttonsContainerScreenRatio)).isActive = true
         }
     }
     

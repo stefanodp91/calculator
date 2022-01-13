@@ -10,9 +10,7 @@ import MathParser
 
 class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
     
-    
     @IBOutlet weak var rootStackView: UIStackView!
-    
     
     private var evaluatorController: EvaluatorController?
     private var calculatorUI: CalculatorUI?
