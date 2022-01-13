@@ -60,6 +60,7 @@
 		3FD5A5CA278446AF00B7EF34 = {
 			isa = PBXGroup;
 			children = (
+				3FD5A6582790D67800B7EF34 /* resources */,
 				3FD5A5D5278446AF00B7EF34 /* calculator */,
 				3FD5A5D4278446AF00B7EF34 /* Products */,
 			);
@@ -118,6 +119,13 @@
 				3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */,
 			);
 			path = presentation;
+			sourceTree = "<group>";
+		};
+		3FD5A6582790D67800B7EF34 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

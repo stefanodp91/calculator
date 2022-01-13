@@ -31,7 +31,7 @@ class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
                 DataBean(id: Symbol.clear.id, label: Symbol.clear.label, type: DataType.symbol),
                 DataBean(id: MathSymbol.sqrt.id, label: MathSymbol.sqrt.label, type: DataType.symbol),
                 DataBean(id: MathSymbol.factorial.id, label: MathSymbol.factorial.label, type: DataType.symbol),
-                DataBean()
+                DataBean() // empty space
             ])
             .addRow([
                 DataBean(id: MathSymbol.leftParentheses.id, label: MathSymbol.leftParentheses.label, type: DataType.symbol),
