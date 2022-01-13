@@ -9,21 +9,20 @@ import UIKit
 import MathParser
 
 class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
-    
-    @IBOutlet weak var rootStackView: UIStackView!
+   
+    @IBOutlet var calculatorUIView: CalculatorUI!
     
     private var evaluatorController: EvaluatorController?
-    private var calculatorUI: CalculatorUI?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // setup ui
-        setupCalculatorUI()
+        calculatorUIView!.drawUI(createConfiguration())
+        calculatorUIView!.clickDelegate = self
         
         // setup evaluator
         evaluatorController = EvaluatorController(self)
-        
     }
     
     private func createConfiguration() -> UIConfiguration {
@@ -76,34 +75,12 @@ class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
             .build()
     }
     
-    private func setupCalculatorUI() {
-        // setup root
-        rootStackView.axis = .vertical
-        rootStackView.alignment = .center
-        rootStackView.distribution = .fill
-        
-        // setup calculator
-        calculatorUI = CalculatorUI()
-        calculatorUI!.drawUI(createConfiguration())
-        calculatorUI!.clickDelegate = self
-        
-        // add calculator to layout
-        rootStackView.addArrangedSubview(calculatorUI!)
-        
-        // setup constraints
-        calculatorUI!.translatesAutoresizingMaskIntoConstraints = false
-        calculatorUI!.topAnchor.constraint(equalTo: rootStackView.topAnchor, constant: 0).isActive = true
-        calculatorUI!.leadingAnchor.constraint(equalTo: rootStackView.leadingAnchor, constant: 0).isActive = true
-        calculatorUI!.trailingAnchor.constraint(equalTo: rootStackView.trailingAnchor, constant: 0).isActive = true
-        calculatorUI!.bottomAnchor.constraint(equalTo: rootStackView.bottomAnchor, constant: 0).isActive = true
-    }
-    
     func onButtonClicked(_ buttonId: String, _ expression: String) {
         evaluatorController?.evaluate(expression)
     }
     
     func onEvaluation(_ result: String) {
-        calculatorUI?.updateResult("\(result)")
+        calculatorUIView?.updateResult("\(result)")
     }
     
     func onMathEvaluationError(_ error: MathParserError) {
