@@ -19,6 +19,7 @@ public class CalculatorUI : UIView {
     private var configuration: UIConfiguration?
     
     private var currentExpression: String = ""
+    private var temp: String = ""
     
     var clickDelegate: ButtonClickDelegate?
     
@@ -235,14 +236,16 @@ public class CalculatorUI : UIView {
         }
     }
     
-    var temp: String = ""
     private func handleClick(_ data: DataBean) {
         switch(data.id) {
             
         case Symbol.clear.id:
             currentExpression = ""
+            clickDelegate?.onButtonClicked(data.id, temp)
+            return
         case MathSymbol.result.id:
             clickDelegate?.onButtonClicked(data.id, temp)
+            return
         case Symbol.delete.id:
             if(!currentExpression.isEmpty) {
                 // TODO: update cursor index to last known location
