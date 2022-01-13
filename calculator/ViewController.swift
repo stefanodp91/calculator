@@ -9,7 +9,7 @@ import UIKit
 import MathParser
 
 class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
-   
+    
     @IBOutlet var calculatorUIView: CalculatorUI!
     
     private var evaluatorController: EvaluatorController?
@@ -61,7 +61,7 @@ class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
             .setLabelsContainerScreenRatio(0.5)
             .setButtonsContainerScreenRatio(0.5)
             .setLabelResultRationInContainer(0.2)
-            .setLabelCurrentCalculationRatioInContainer(0.8)
+            .setLabelCurrentExpressionRatioInContainer(0.8)
             .setLabelTextScaleFactor(0.2)
             .setLabelRadius(16)
             .setLabelContainerPadding(8)
@@ -75,12 +75,19 @@ class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
             .build()
     }
     
+    var lastButtonClicked : String?
     func onButtonClicked(_ buttonId: String, _ expression: String) {
+        lastButtonClicked = buttonId
         evaluatorController?.evaluate(expression)
     }
     
     func onEvaluation(_ result: String) {
-        calculatorUIView?.updateResult("\(result)")
+        if(lastButtonClicked == MathSymbol.result.id) {
+            calculatorUIView?.updateCurrentExpression("\(result)")
+            calculatorUIView?.updateResult("")
+        } else {
+            calculatorUIView?.updateResult("\(result)")
+        }
     }
     
     func onMathEvaluationError(_ error: MathParserError) {

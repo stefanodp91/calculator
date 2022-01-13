@@ -11,14 +11,14 @@ import SwiftUI
 
 public class CalculatorUI : UIView {
     
-    private var currentCalculationLabel = CustomUILabel()
+    private var currentExpressionUILabel = CustomUILabel()
     private var resultLabel = CustomUILabel()
     private var labelStackView = UIStackView()
     private var buttonsStackView: UIStackView?
     
     private var configuration: UIConfiguration?
     
-    private var inProgressCalculation: String = ""
+    private var currentExpression: String = ""
     
     var clickDelegate: ButtonClickDelegate?
     
@@ -34,7 +34,7 @@ public class CalculatorUI : UIView {
         setupButtons()
         
         // Add views layout
-        labelStackView.addArrangedSubview(currentCalculationLabel)
+        labelStackView.addArrangedSubview(currentExpressionUILabel)
         labelStackView.addArrangedSubview(resultLabel)
         
         self.addSubview(labelStackView)
@@ -45,6 +45,11 @@ public class CalculatorUI : UIView {
     
     func updateResult(_ result: String) {
         resultLabel.text = "\(result)"
+    }
+    
+    func updateCurrentExpression(_ result: String) {
+        currentExpression = result
+        currentExpressionUILabel.text = currentExpression
     }
     
     private func setupLabels() {
@@ -67,28 +72,28 @@ public class CalculatorUI : UIView {
             
             
             //        //It will Hide Keyboard
-            //        currentCalculationLabel.inputView = UIView()
+            //        currentExpressionUILabel.inputView = UIView()
             //        //It will Hide Keyboard tool bar
-            //        currentCalculationLabel.inputAccessoryView = UIView()
+            //        currentExpressionUILabel.inputAccessoryView = UIView()
             //        //It will Hide the cursor
-            //        currentCalculationLabel.tintColor = .white
+            //        currentExpressionUILabel.tintColor = .white
             
-            currentCalculationLabel.textColor = .white
-            currentCalculationLabel.backgroundColor = .systemGray
-            currentCalculationLabel.textAlignment = .right
-            currentCalculationLabel.font = .systemFont(ofSize: CGFloat(configuration.builder.currentCalculationFontSize))
-            currentCalculationLabel.setMargins(
+            currentExpressionUILabel.textColor = .white
+            currentExpressionUILabel.backgroundColor = .systemGray
+            currentExpressionUILabel.textAlignment = .right
+            currentExpressionUILabel.font = .systemFont(ofSize: CGFloat(configuration.builder.currentCalculationFontSize))
+            currentExpressionUILabel.setMargins(
                 top: CGFloat(configuration.builder.labelInternalPadding),
                 left: CGFloat(configuration.builder.labelInternalPadding),
                 bottom: CGFloat(configuration.builder.labelInternalPadding),
                 right: CGFloat(configuration.builder.labelInternalPadding)
             )
-            currentCalculationLabel.backgroundColor = labelBackground
+            currentExpressionUILabel.backgroundColor = labelBackground
             // font size
-            currentCalculationLabel.autoscaleFont(CGFloat(configuration.builder.labelTextScaleFactor))
+            currentExpressionUILabel.autoscaleFont(CGFloat(configuration.builder.labelTextScaleFactor))
             
             // add internal margins
-            currentCalculationLabel.setMargins(CGFloat(configuration.builder.labelInternalPadding))
+            currentExpressionUILabel.setMargins(CGFloat(configuration.builder.labelInternalPadding))
             
             labelStackView.addBackground(color: .systemBlue)
             labelStackView.isLayoutMarginsRelativeArrangement = true
@@ -117,20 +122,20 @@ public class CalculatorUI : UIView {
             // ignore default constraints
             labelStackView.translatesAutoresizingMaskIntoConstraints = false
             buttonsStackView!.translatesAutoresizingMaskIntoConstraints = false
-            currentCalculationLabel.translatesAutoresizingMaskIntoConstraints = false
+            currentExpressionUILabel.translatesAutoresizingMaskIntoConstraints = false
             resultLabel.translatesAutoresizingMaskIntoConstraints = false
             
             labelStackView.axis = .vertical
             
             // current calculation label
-            currentCalculationLabel.topAnchor.constraint(equalTo: labelStackView.topAnchor, constant: 0).isActive = true
-            currentCalculationLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
-            currentCalculationLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
-            currentCalculationLabel.bottomAnchor.constraint(equalTo: resultLabel.topAnchor, constant: 0).isActive = true
-            currentCalculationLabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: CGFloat(configuration.builder.labelCurrentCalculationRatioInContainer)).isActive = true
+            currentExpressionUILabel.topAnchor.constraint(equalTo: labelStackView.topAnchor, constant: 0).isActive = true
+            currentExpressionUILabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
+            currentExpressionUILabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
+            currentExpressionUILabel.bottomAnchor.constraint(equalTo: resultLabel.topAnchor, constant: 0).isActive = true
+            currentExpressionUILabel.heightAnchor.constraint(equalTo: labelStackView.heightAnchor, multiplier: CGFloat(configuration.builder.labelCurrentExpressionRatioInContainer)).isActive = true
             
             // result label
-            resultLabel.topAnchor.constraint(equalTo: currentCalculationLabel.bottomAnchor, constant: 0).isActive = true
+            resultLabel.topAnchor.constraint(equalTo: currentExpressionUILabel.bottomAnchor, constant: 0).isActive = true
             resultLabel.leadingAnchor.constraint(equalTo: labelStackView.leadingAnchor, constant: 0).isActive = true
             resultLabel.trailingAnchor.constraint(equalTo: labelStackView.trailingAnchor, constant: 0).isActive = true
             resultLabel.bottomAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 0).isActive = true
@@ -234,22 +239,23 @@ public class CalculatorUI : UIView {
     private func handleClick(_ data: DataBean) {
         switch(data.id) {
             
+        case MathSymbol.result.id:
+            clickDelegate?.onButtonClicked(data.id, temp)
         case Symbol.delete.id:
-            if(!inProgressCalculation.isEmpty) {
+            if(!currentExpression.isEmpty) {
                 // TODO: update cursor index to last known location
-                inProgressCalculation.removeLast()
-                
+                currentExpression.removeLast()
             }
         default:
-            inProgressCalculation += data.label
+            currentExpression += data.label
         }
         
-        temp = inProgressCalculation
+        temp = currentExpression
             .replacingOccurrences(of: Operation.multiplication.label, with: Operation.multiplication.id)
             .replacingOccurrences(of: Operation.division.label, with: Operation.division.id)
             .replacingOccurrences(of: MathSymbol.comma.label, with: MathSymbol.comma.mathValue)
         
-        currentCalculationLabel.text  = inProgressCalculation
+        currentExpressionUILabel.text  = currentExpression
         
         resultLabel.text = ""
         

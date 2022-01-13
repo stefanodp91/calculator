@@ -22,7 +22,7 @@ public class UIConfigurationBuilder {
     private(set) var labelsContainerScreenRatio: Float = 0.5
     private(set) var buttonsContainerScreenRatio: Float = 0.5
     private(set) var labelResultRationInContainer: Float = 0.2
-    private(set) var labelCurrentCalculationRatioInContainer: Float = 0.8
+    private(set) var labelCurrentExpressionRatioInContainer: Float = 0.8
     private(set) var labelTextScaleFactor: Float = 0.2
     private(set) var labelRadius: Float = 16
     private(set) var labelContainerPadding: Float = 8
@@ -54,8 +54,8 @@ public class UIConfigurationBuilder {
         return self
     }
     
-    func setLabelCurrentCalculationRatioInContainer(_ labelCurrentCalculationRatioInContainer: Float ) -> UIConfigurationBuilder {
-        self.labelCurrentCalculationRatioInContainer = labelCurrentCalculationRatioInContainer
+    func setLabelCurrentExpressionRatioInContainer(_ labelCurrentExpressionRatioInContainer: Float ) -> UIConfigurationBuilder {
+        self.labelCurrentExpressionRatioInContainer = labelCurrentExpressionRatioInContainer
         return self
     }
     
