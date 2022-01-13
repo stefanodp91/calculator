@@ -239,6 +239,8 @@ public class CalculatorUI : UIView {
     private func handleClick(_ data: DataBean) {
         switch(data.id) {
             
+        case Symbol.clear.id:
+            currentExpression = ""
         case MathSymbol.result.id:
             clickDelegate?.onButtonClicked(data.id, temp)
         case Symbol.delete.id:
