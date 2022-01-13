@@ -19,9 +19,9 @@ It uses the [DDMathParser](https://github.com/davedelong/DDMathParser.git) core 
 
 1. Create your own [UIConfiguration](https://github.com/stefanodp91/calculator/blob/master/calculator/presentation/UIConfiguration.swift)
 
-2. Add[CalculatorUI](https://github.com/stefanodp91/calculator/blob/master/calculator/presentation/CalculatorUI.swift) to your controller or storyboard for the ui.
+2. Add [CalculatorUI](https://github.com/stefanodp91/calculator/blob/master/calculator/presentation/CalculatorUI.swift) to your controller or storyboard for the ui.
 
-3. Instantiate the[EvaluatorController](https://github.com/stefanodp91/calculator/blob/master/calculator/business/EvaluatorController.swift) to perform the evaluation of the math string passed from the ui
+3. Instantiate the [EvaluatorController](https://github.com/stefanodp91/calculator/blob/master/calculator/business/EvaluatorController.swift) to perform the evaluation of the math string passed from the ui
 
 4. Draw the CalculatorUI by calling `.drawUI(YOUR_CONFIGURATION_OBJECT)` method
 
