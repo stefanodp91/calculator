@@ -92,7 +92,6 @@
 		3FD5A60627860FF700B7EF34 /* views */ = {
 			isa = PBXGroup;
 			children = (
-				3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */,
 				3FD5A60427860FF000B7EF34 /* CustomUILabel.swift */,
 			);
 			path = views;
@@ -116,6 +115,7 @@
 				3FD5A64C278F833F00B7EF34 /* Enums.swift */,
 				3FD5A650278F896800B7EF34 /* UIConfiguration.swift */,
 				3FD5A652278F9C4400B7EF34 /* ButtonClickDelegate.swift */,
+				3FD5A6012785CE7B00B7EF34 /* UIUtils.swift */,
 			);
 			path = presentation;
 			sourceTree = "<group>";

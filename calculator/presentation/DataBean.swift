@@ -10,7 +10,7 @@ struct DataBean {
     var label: String
     var type: DataType = DataType.undefined
     
-    internal init(id: String, label: String, type: DataType) {
+    internal init(id: String = "", label: String="", type: DataType = DataType.undefined) {
         self.id = id
         self.label = label
         self.type = type

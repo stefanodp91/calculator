@@ -67,7 +67,7 @@ enum Operation {
 }
 
 enum MathSymbol {
-    case sqrt, percentage, dot, comma, result, leftParentheses, rightParentheses
+    case sqrt, percentage, dot, comma, result, leftParentheses, rightParentheses, factorial
     
     var id: String {
         switch self {
@@ -78,6 +78,7 @@ enum MathSymbol {
         case .result: return "result"
         case .leftParentheses: return "leftParentheses"
         case .rightParentheses: return "rightParentheses"
+        case .factorial: return "factorial"
         }
     }
     
@@ -90,6 +91,7 @@ enum MathSymbol {
         case .result: return "\u{003D}"
         case .leftParentheses: return "\u{0028}"
         case .rightParentheses: return "\u{0029}"
+        case .factorial: return "\u{0021}"
         }
     }
     
@@ -102,6 +104,7 @@ enum MathSymbol {
         case .result: return "="
         case .leftParentheses: return "("
         case .rightParentheses: return ")"
+        case .factorial: return "!"
         }
     }
 }

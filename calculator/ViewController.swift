@@ -29,6 +29,11 @@ class ViewController: UIViewController, EvaluatorDelegate, ButtonClickDelegate {
         return UIConfigurationBuilder()
             .addRow([
                 DataBean(id: Symbol.clear.id, label: Symbol.clear.label, type: DataType.symbol),
+                DataBean(id: MathSymbol.sqrt.id, label: MathSymbol.sqrt.label, type: DataType.symbol),
+                DataBean(id: MathSymbol.factorial.id, label: MathSymbol.factorial.label, type: DataType.symbol),
+                DataBean()
+            ])
+            .addRow([
                 DataBean(id: MathSymbol.leftParentheses.id, label: MathSymbol.leftParentheses.label, type: DataType.symbol),
                 DataBean(id: MathSymbol.rightParentheses.id, label: MathSymbol.rightParentheses.label, type: DataType.symbol),
                 DataBean(id: MathSymbol.percentage.id, label: MathSymbol.percentage.label, type: DataType.symbol),

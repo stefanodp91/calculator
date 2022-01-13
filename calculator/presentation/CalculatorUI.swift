@@ -19,7 +19,6 @@ public class CalculatorUI : UIView {
     private var configuration: UIConfiguration?
     
     private var currentExpression: String = ""
-    private var temp: String = ""
     
     var clickDelegate: ButtonClickDelegate?
     
@@ -45,11 +44,13 @@ public class CalculatorUI : UIView {
     }
     
     func updateResult(_ result: String) {
-        resultLabel.text = "\(result)"
+        let res = toUserFriendlyExpression("\(result)")
+        resultLabel.text = res
     }
     
     func updateCurrentExpression(_ result: String) {
-        currentExpression = result
+        let res = toUserFriendlyExpression("\(result)")
+        currentExpression = res
         currentExpressionUILabel.text = currentExpression
     }
     
@@ -203,7 +204,11 @@ public class CalculatorUI : UIView {
                 }
                 
                 button.backgroundColor = backgroundColor
-                button.addTarget(self, action: #selector(onClick(sender:)), for: .touchUpInside)
+                
+                // prevent click on empty item
+                if(element.id != "") {
+                    button.addTarget(self, action: #selector(onClick(sender:)), for: .touchUpInside)
+                }
                 
                 return button
             }
@@ -237,15 +242,14 @@ public class CalculatorUI : UIView {
     }
     
     private func handleClick(_ data: DataBean) {
+        
         switch(data.id) {
             
         case Symbol.clear.id:
             currentExpression = ""
-            clickDelegate?.onButtonClicked(data.id, temp)
-            return
+            clickDelegate?.onButtonClicked(data.id, currentExpression)
         case MathSymbol.result.id:
-            clickDelegate?.onButtonClicked(data.id, temp)
-            return
+            clickDelegate?.onButtonClicked(data.id, currentExpression)
         case Symbol.delete.id:
             if(!currentExpression.isEmpty) {
                 // TODO: update cursor index to last known location
@@ -255,15 +259,24 @@ public class CalculatorUI : UIView {
             currentExpression += data.label
         }
         
-        temp = currentExpression
-            .replacingOccurrences(of: Operation.multiplication.label, with: Operation.multiplication.id)
-            .replacingOccurrences(of: Operation.division.label, with: Operation.division.id)
-            .replacingOccurrences(of: MathSymbol.comma.label, with: MathSymbol.comma.mathValue)
-        
         currentExpressionUILabel.text  = currentExpression
         
         resultLabel.text = ""
         
-        clickDelegate?.onButtonClicked(data.id, temp)
+        clickDelegate?.onButtonClicked(data.id, toMathExpression(currentExpression))
+    }
+    
+    private func toMathExpression(_ expression: String) -> String {
+        return expression
+            .replacingOccurrences(of: Operation.multiplication.label, with: Operation.multiplication.id)
+            .replacingOccurrences(of: Operation.division.label, with: Operation.division.id)
+            .replacingOccurrences(of: MathSymbol.comma.label, with: MathSymbol.comma.mathValue)
+    }
+    
+    private func toUserFriendlyExpression(_ expression: String) -> String {
+        return expression
+            .replacingOccurrences(of: Operation.multiplication.id, with: Operation.multiplication.label)
+            .replacingOccurrences(of: Operation.division.id, with: Operation.division.label)
+            .replacingOccurrences(of: MathSymbol.comma.mathValue, with: MathSymbol.comma.label)
     }
 }
