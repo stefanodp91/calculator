@@ -4,6 +4,15 @@ Customizable calculator for iPadOS and iOS
 
 It uses the [DDMathParser](https://github.com/davedelong/DDMathParser.git) core library to evaluate the most common math operations.
 
+## Screenshots
+
+<img src="https://github.com/stefanodp91/calculator/blob/master/resources/iPhone13pro-screen1.png" width="250"> | <img src="https://github.com/stefanodp91/calculator/blob/master/resources/iPhone13pro-screen2.png" width="250"> 
+
+
+<img src="https://github.com/stefanodp91/calculator/blob/master/resources/iPadPro11-screen2.png" width="250"> |
+<img src="https://github.com/stefanodp91/calculator/blob/master/resources/iPadPro11-screen1.png" width="450"> 
+
+
 ---
 
 ## Usage
@@ -89,6 +98,15 @@ it is also possible to customize some graphic aspects such as button size, space
 
 ## Compatibility
 
+<img src="https://github.com/stefanodp91/calculator/blob/master/resources/compatibility.png"> 
+
+---
+
+## Known issues
+
+1. Light theme is not working correctly
+2. It is not possible to customize the colors from the configurator, they must be changed directly in the class [CalculatorUI](https://github.com/stefanodp91/calculator/blob/master/calculator/presentation/CalculatorUI.swift)
+3. Some mathematical operations supported by the [DDMathParser](https://github.com/davedelong/DDMathParser.git) are not managed by the ui (for example the pow calculation)
 
 ---
 
